@@ -19,7 +19,6 @@ export default {
 #app {
   text-align: center;
   color: #000000;
-  margin-top: 60px;
 }
 
 body {
