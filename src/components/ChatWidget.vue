@@ -133,7 +133,7 @@ export default {
   margin: 0 auto;
   display: flex;
   flex-direction: column;
-  height: 100vh;
+  height: 100dvh;
   max-height: 800px;
   border-radius: 10px;
   background-color: #ffffff;
