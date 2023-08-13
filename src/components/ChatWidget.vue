@@ -128,11 +128,13 @@ export default {
 
 <style>
 .chat-widget {
-  width: 600px;
+  width: 100%;
+  max-width: 600px;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
-  height: 800px;
+  height: 100vh;
+  max-height: 800px;
   border-radius: 10px;
   background-color: #ffffff;
 }
