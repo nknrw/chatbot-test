@@ -1,15 +1,11 @@
 <template>
   <div class="chat-widget">
-
-    <div class="chat-messages">
-
+    <div class="chat-messages" ref="chatMessages">
       <div v-for="msg in messages" :key="msg.id" class="message"
-        :class="{ 'from-user': msg.from === 'user', 'from-bot': msg.from === 'bot' }">
+           :class="{ 'from-user': msg.from === 'user', 'from-bot': msg.from === 'bot' }">
         <div class="avatar"></div>
-
         <div class="text">
           <div v-if="msg.id === 'typing'" class="loading">
-            <!-- <span class="loading-icon"></span> -->
             <div class="typing-indicator-bubble-dot"></div>
             <div class="typing-indicator-bubble-dot"></div>
             <div class="typing-indicator-bubble-dot"></div>
@@ -19,25 +15,19 @@
       </div>
     </div>
     <div class="chat-input">
-      
       <button class="menu-button" @click="toggleMenu"></button>
       <input v-model="input" @keyup.enter="sendMessage" placeholder="Напишите сообщение" />
-      <!-- <button class="send-button" @click="sendMessage"></button> -->
       <button v-if="showSendButton" :class="{ 'show': showSendButton }" class="send-button" @click="sendMessage"></button>
     </div>
-    
-
     <div class="buttons" v-if="showMenu">
       <button v-for="button in buttons" @click="sendButtonMessage(button.text)">
         {{ button.text }}
       </button>
     </div>
-
   </div>
 </template>
-<script>
-import { nextTick } from 'vue'
 
+<script>
 export default {
   data() {
     return {
@@ -53,109 +43,120 @@ export default {
       ],
       isLoading: false,
       showMenu: false,
-    }
+    };
   },
 
   mounted() {
     this.messages.push({
       id: 1,
       text: 'Привет! Чем я могу Вам помочь?',
-      from: 'bot'
-    })
+      from: 'bot',
+    });
   },
 
   methods: {
     addMessage(msg) {
-      this.messages.push(msg)
-
+      this.messages.push(msg);
     },
     toggleMenu() {
-      this.showMenu = !this.showMenu
+      this.showMenu = !this.showMenu;
     },
     sendMessage() {
       if (this.input) {
         this.messages.push({
           id: this.messages.length + 1,
           text: this.input,
-          from: 'user'
-        })
-        this.input = ''
+          from: 'user',
+        });
+        this.input = '';
 
-        this.reply()
+        this.$nextTick(() => {
+          this.scrollChatToBottom();
+        });
+
+        this.reply();
       }
     },
 
     sendButtonMessage(text) {
       this.messages.push({
         text,
-        from: 'user'
-      })
+        from: 'user',
+      });
 
-      this.input = ''
+      this.input = '';
 
-      this.reply()
+      this.$nextTick(() => {
+        this.scrollChatToBottom();
+      });
+
+      this.reply();
     },
 
     reply() {
-      const lastMsg = this.messages[this.messages.length - 1]
+      const lastMsg = this.messages[this.messages.length - 1];
 
       const botTyping = {
         id: 'typing',
-        from: 'bot'
-      }
+        from: 'bot',
+      };
 
-      this.messages.push(botTyping)
-
+      this.messages.push(botTyping);
 
       setTimeout(() => {
-        this.messages = this.messages.filter(msg => msg.id !== 'typing')
+        this.messages = this.messages.filter((msg) => msg.id !== 'typing');
         if (lastMsg.text.includes('пицц')) {
           this.messages.push({
             id: this.messages.length + 1,
             text: 'Хорошо, я закажу Вам пиццу!',
-            from: 'bot'
-          })
+            from: 'bot',
+          });
         } else if (lastMsg.text.includes('будильник')) {
           this.messages.push({
             id: this.messages.length + 1,
             text: 'Я установил для Вас будильник',
-            from: 'bot'
-          })
+            from: 'bot',
+          });
         } else if (lastMsg.text.includes('погоду')) {
           this.messages.push({
             id: this.messages.length + 1,
             text: 'Я отправил Вам погоду',
-            from: 'bot'
-          })
+            from: 'bot',
+          });
         } else if (lastMsg.text.includes('Lorem')) {
           this.messages.push({
             id: this.messages.length + 1,
-            text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-            from: 'bot'
-          })
+            text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit...',
+            from: 'bot',
+          });
         } else {
           this.messages.push({
             id: this.messages.length + 1,
             text: 'К сожалению, я Вас не понял. Попробуйте задать вопрос другими словами',
-            from: 'bot'
-          })
+            from: 'bot',
+          });
         }
-      }, (Math.random(5) * 1000))
-    }
+
+        this.$nextTick(() => {
+          this.scrollChatToBottom();
+        });
+      }, Math.random() * 1000);
+    },
+
+    scrollChatToBottom() {
+      const chatMessages = this.$refs.chatMessages;
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+    },
   },
 
   computed: {
-
     showSendButton() {
       return this.input.length > 0;
     },
-    
-
-  }
-
-}
-
+  },
+};
 </script>
+
 
 <style>
 .chat-widget {
@@ -175,13 +176,18 @@ export default {
     height: calc(100dvh - 20px);
   }
 }
-  
+
 
 .chat-messages {
   flex: 1;
   padding: 10px;
   height: 400px;
-  overflow: overlay;
+  overflow: scroll;
+  display: flex;
+  justify-content: end;
+  //align-items: end;
+  flex-direction: column;
+  //gap: 20px;
 }
 
 .chat-messages::-webkit-scrollbar {
@@ -205,6 +211,7 @@ export default {
   /* border-radius: 10px; */
   /* padding: 10px; */
   align-items: flex-end;
+  justify-self: end;
 }
 
 .text {
@@ -214,7 +221,7 @@ export default {
   width: fit-content;
   max-width: calc(100% - 120px);
   padding: 10px;
-  height: 100%;
+  //height: 100%;
   text-align: start;
 }
 
@@ -269,7 +276,7 @@ export default {
 }
 
 .chat-input input:hover {
-  background-color: #ccc;
+opacity: 0.8;
 }
 
 .send-button {
@@ -311,6 +318,10 @@ export default {
   opacity: 0.8;
 }
 
+.menu-button:hover {
+  opacity: 0.8;
+}
+
 .buttons {
   display: flex;
   padding: 0 10px 10px 10px;
@@ -338,7 +349,7 @@ export default {
 }
 
 .buttons button:hover {
-  background: #0069d9;
+  opacity: 0.8;
 }
 
 /* Стили прокрутки */
@@ -386,7 +397,7 @@ export default {
 }
 
 .typing-indicator-bubble-dot:first-of-type {
-  margin: 0px 4px;
+  margin: 0 4px;
 }
 
 .typing-indicator-bubble-dot:nth-of-type(2) {
