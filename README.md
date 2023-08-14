@@ -1,19 +1,29 @@
-# chatbot-test-task
+## Описание проекта
+Проект представляет собой заготовку для чат-бота без какой-либо интеллектуальной нагрузки.  
 
-## Project setup
+Ссылка на работающее приложение:  
+
+https://chatbot-test-task.vercel.app/
+
+## Локальный запуск
 ```
 npm install
-```
-
-### Compiles and hot-reloads for development
-```
 npm run serve
 ```
 
-### Compiles and minifies for production
+## Использование в стороннем проекте (тест)
+
+Установите пакет в ваш проект
 ```
-npm run build
+npm i nknrw-test-chatbot
+```
+Импортируйте компонент в ваш проект
+```
+import ChatWidget from 'nknrw-test-chatbot'
+```
+Добавьте компонент
+```
+<ChatWidget />
 ```
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+Компонент в npm-пакете имеет незначительные отличия, например изображения переведены в base64.

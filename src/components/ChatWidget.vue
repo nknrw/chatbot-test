@@ -37,8 +37,6 @@ export default {
         { text: 'Заказать пиццу' },
         { text: 'Установить будильник' },
         { text: 'Показать погоду' },
-        { text: 'Кнопка с текстом' },
-        { text: 'Еще кнопка с текстом' },
         { text: 'Lorem ipsum' },
       ],
       isLoading: false,
@@ -55,9 +53,6 @@ export default {
   },
 
   methods: {
-    addMessage(msg) {
-      this.messages.push(msg);
-    },
     toggleMenu() {
       this.showMenu = !this.showMenu;
     },
@@ -108,31 +103,31 @@ export default {
         if (lastMsg.text.includes('пицц')) {
           this.messages.push({
             id: this.messages.length + 1,
-            text: 'Хорошо, я закажу Вам пиццу!',
+            text: 'Хорошо, я закажу пиццу. Что еще могу сделать?',
             from: 'bot',
           });
         } else if (lastMsg.text.includes('будильник')) {
           this.messages.push({
             id: this.messages.length + 1,
-            text: 'Я установил для Вас будильник',
+            text: 'Я установил будильник. Что-то еще?',
             from: 'bot',
           });
         } else if (lastMsg.text.includes('погоду')) {
           this.messages.push({
             id: this.messages.length + 1,
-            text: 'Я отправил Вам погоду',
+            text: 'Я отправил вам погоду. Что-нибудь еще?',
             from: 'bot',
           });
         } else if (lastMsg.text.includes('Lorem')) {
           this.messages.push({
             id: this.messages.length + 1,
-            text: 'Amet cursus sit amet dictum sit amet justo donec enim diam vulputate ut pharetra sit amet aliquam id diam maecenas ultricies mi eget mauris pharetra et ultrices neque ornare aenean euismod elementum nisi quis eleifend quam adipiscing vitae proin sagittis nisl rhoncus mattis rhoncus urna neque viverra justo nec ultrices',
+            text: 'Amet cursus sit amet dictum sit amet justo donec enim diam vulputate ut pharetra sit amet aliquam id diam maecenas ultricies mi eget mauris pharetra et ultrices neque ornare aenean euismod elementum nisi quis eleifend quam adipiscing vitae proin sagittis nisl rhoncus mattis rhoncus urna neque viverra justo nec ultrices.',
             from: 'bot',
           });
         } else {
           this.messages.push({
             id: this.messages.length + 1,
-            text: 'К сожалению, я Вас не понял. Попробуйте задать вопрос другими словами',
+            text: 'К сожалению, я Вас не понял. Попробуйте задать вопрос другими словами или выберите готовые команды.',
             from: 'bot',
           });
         }
@@ -183,10 +178,7 @@ export default {
   height: 400px;
   overflow: scroll;
   display: flex;
-  //justify-content: end;
-  //align-items: end;
   flex-direction: column;
-  //gap: 20px;
 }
 
 .chat-messages:hover {
@@ -212,9 +204,6 @@ export default {
 .message {
   display: flex;
   margin-bottom: 10px;
-  /* background-color: #f0f0f0; */
-  /* border-radius: 10px; */
-  /* padding: 10px; */
   align-items: flex-end;
   justify-self: end;
 }
@@ -226,9 +215,9 @@ export default {
   width: fit-content;
   max-width: calc(100% - 120px);
   padding: 10px;
-  //height: 100%;
   text-align: start;
   box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.1);
+  user-select: text;
 }
 
 .from-user {
@@ -296,7 +285,6 @@ opacity: 0.8;
   background-size: contain;
   background-color: unset;
   background-repeat: no-repeat;
-  /* padding: 0; */
   border: none;
   outline: none;
   margin: 10px 10px 10px 0;
@@ -311,7 +299,6 @@ opacity: 0.8;
   background-size: contain;
   background-color: unset;
   background-repeat: no-repeat;
-  /* padding: 0; */
   border: none;
   outline: none;
   margin: 10px 0 10px 10px;
@@ -361,7 +348,6 @@ opacity: 0.8;
   opacity: 0.8;
 }
 
-/* Стили прокрутки */
 .buttons::-webkit-scrollbar {
   height: 5px;
 }
@@ -376,22 +362,6 @@ opacity: 0.8;
   align-items: flex-end;
   height: 100%;
 }
-
-/* .loading-icon {
-  width: 30px;
-  height: 30px;
-  border: 3px solid #ccc;
-  border-right-color: #007bff;
-  border-radius: 50%;
-
-  animation: spin 1s linear infinite;
-}
-
-@keyframes spin {
-  to {
-    transform: rotate(360deg);
-  }
-} */
 
 .typing-indicator-bubble-dot {
   width: 4px;
