@@ -126,7 +126,7 @@ export default {
         } else if (lastMsg.text.includes('Lorem')) {
           this.messages.push({
             id: this.messages.length + 1,
-            text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit...',
+            text: 'Amet cursus sit amet dictum sit amet justo donec enim diam vulputate ut pharetra sit amet aliquam id diam maecenas ultricies mi eget mauris pharetra et ultrices neque ornare aenean euismod elementum nisi quis eleifend quam adipiscing vitae proin sagittis nisl rhoncus mattis rhoncus urna neque viverra justo nec ultrices',
             from: 'bot',
           });
         } else {
@@ -177,27 +177,32 @@ export default {
   }
 }
 
-
 .chat-messages {
   flex: 1;
   padding: 10px;
   height: 400px;
   overflow: scroll;
   display: flex;
-  justify-content: end;
+  //justify-content: end;
   //align-items: end;
   flex-direction: column;
   //gap: 20px;
 }
 
+.chat-messages:hover {
+  overflow-y: scroll;
+  padding-right: 5px;
+}
+
 .chat-messages::-webkit-scrollbar {
   width: 5px;
   height: 100%;
+  display: none;
 }
 
-/* .chat-messages::-webkit-scrollbar-track {
-  background: #f0f0f0;
-} */
+.chat-messages:hover::-webkit-scrollbar {
+  display: flex;
+}
 
 .chat-messages::-webkit-scrollbar-thumb {
   background: #ccc;
