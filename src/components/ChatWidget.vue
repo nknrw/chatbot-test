@@ -5,25 +5,29 @@
 
       <div v-for="msg in messages" :key="msg.id" class="message"
         :class="{ 'from-user': msg.from === 'user', 'from-bot': msg.from === 'bot' }">
-
         <div class="avatar"></div>
 
-        <div v-if="msg.id === 'typing'" class="loading">
-          <!-- <span class="loading-icon"></span> -->
-              <div class="typingIndicatorBubbleDot"></div>
-              <div class="typingIndicatorBubbleDot"></div>
-              <div class="typingIndicatorBubbleDot"></div>
+        <div class="text">
+          <div v-if="msg.id === 'typing'" class="loading">
+            <!-- <span class="loading-icon"></span> -->
+            <div class="typing-indicator-bubble-dot"></div>
+            <div class="typing-indicator-bubble-dot"></div>
+            <div class="typing-indicator-bubble-dot"></div>
+          </div>
+          {{ msg.text }}
         </div>
-        {{ msg.text }}
       </div>
-
     </div>
-
     <div class="chat-input">
+      
+      <button class="menu-button" @click="toggleMenu"></button>
       <input v-model="input" @keyup.enter="sendMessage" placeholder="Напишите сообщение" />
+      <!-- <button class="send-button" @click="sendMessage"></button> -->
+      <button v-if="showSendButton" :class="{ 'show': showSendButton }" class="send-button" @click="sendMessage"></button>
     </div>
+    
 
-    <div class="buttons">
+    <div class="buttons" v-if="showMenu">
       <button v-for="button in buttons" @click="sendButtonMessage(button.text)">
         {{ button.text }}
       </button>
@@ -32,6 +36,8 @@
   </div>
 </template>
 <script>
+import { nextTick } from 'vue'
+
 export default {
   data() {
     return {
@@ -42,9 +48,11 @@ export default {
         { text: 'Установить будильник' },
         { text: 'Показать погоду' },
         { text: 'Кнопка с текстом' },
-        { text: 'Еще кнопка с текстом' }
+        { text: 'Еще кнопка с текстом' },
+        { text: 'Lorem ipsum' },
       ],
-      isLoading: false
+      isLoading: false,
+      showMenu: false,
     }
   },
 
@@ -57,6 +65,13 @@ export default {
   },
 
   methods: {
+    addMessage(msg) {
+      this.messages.push(msg)
+
+    },
+    toggleMenu() {
+      this.showMenu = !this.showMenu
+    },
     sendMessage() {
       if (this.input) {
         this.messages.push({
@@ -64,7 +79,6 @@ export default {
           text: this.input,
           from: 'user'
         })
-
         this.input = ''
 
         this.reply()
@@ -113,6 +127,12 @@ export default {
             text: 'Я отправил Вам погоду',
             from: 'bot'
           })
+        } else if (lastMsg.text.includes('Lorem')) {
+          this.messages.push({
+            id: this.messages.length + 1,
+            text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
+            from: 'bot'
+          })
         } else {
           this.messages.push({
             id: this.messages.length + 1,
@@ -120,38 +140,74 @@ export default {
             from: 'bot'
           })
         }
-      }, 1000)
+      }, (Math.random(5) * 1000))
     }
+  },
+
+  computed: {
+
+    showSendButton() {
+      return this.input.length > 0;
+    },
+    
+
   }
+
 }
+
 </script>
 
 <style>
 .chat-widget {
-  width: 100%;
-  max-width: 600px;
+  width: 500px;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
-  height: 100dvh;
-  max-height: 800px;
+  height: 750px;
   border-radius: 10px;
   background-color: #ffffff;
+  box-shadow: 20px 20px 40px rgba(0, 0, 0, 0.1);
 }
 
 .chat-messages {
   flex: 1;
-  overflow-y: auto;
   padding: 10px;
+  height: 400px;
+  overflow: overlay;
+}
+
+.chat-messages::-webkit-scrollbar {
+  width: 5px;
+  height: 100%;
+}
+
+/* .chat-messages::-webkit-scrollbar-track {
+  background: #f0f0f0;
+} */
+
+.chat-messages::-webkit-scrollbar-thumb {
+  background: #ccc;
+  border-radius: 5px;
 }
 
 .message {
   display: flex;
   margin-bottom: 10px;
+  /* background-color: #f0f0f0; */
+  /* border-radius: 10px; */
+  /* padding: 10px; */
+  align-items: flex-end;
+}
+
+.text {
+  display: flex;
   background-color: #f0f0f0;
   border-radius: 10px;
+  width: fit-content;
+  max-width: calc(100% - 120px);
   padding: 10px;
-  align-items: flex-end;
+  height: 100%;
+  text-align: start;
 }
 
 .from-user {
@@ -189,16 +245,18 @@ export default {
 .chat-input {
   border-top: 1px solid #ccc;
   padding: 0;
+  display: flex;
+  align-items: center;
 }
 
 .chat-input input {
-  width: calc(100% - 40px);
+  width: 100%;
   height: 40px;
   border: none;
   outline: none;
   border-radius: 10px;
   padding: 0 10px;
-  margin: 10px 0;
+  margin: 10px;
   background-color: #f0f0f0;
 }
 
@@ -206,9 +264,48 @@ export default {
   background-color: #ccc;
 }
 
+.send-button {
+  transform: translateX(100%);
+  width: 30px;
+  height: 100%;
+  background-image: url(../assets/send-message.png);
+  background-position: center;
+  background-size: contain;
+  background-color: unset;
+  background-repeat: no-repeat;
+  /* padding: 0; */
+  border: none;
+  outline: none;
+  margin: 10px 10px 10px 0;
+  cursor: pointer;
+}
+
+.menu-button {
+  width: 30px;
+  height: 30px;
+  background-image: url(../assets/menu.png);
+  background-position: center;
+  background-size: contain;
+  background-color: unset;
+  background-repeat: no-repeat;
+  /* padding: 0; */
+  border: none;
+  outline: none;
+  margin: 10px 0 10px 10px;
+  cursor: pointer;
+}
+
+.show {
+  transform: translateX(0);
+}
+
+.send-button:hover {
+  opacity: 0.8;
+}
+
 .buttons {
   display: flex;
-  padding: 10px;
+  padding: 0 10px 10px 10px;
   overflow-x: auto;
   gap: 10px;
   flex-wrap: wrap;
@@ -268,7 +365,7 @@ export default {
   }
 } */
 
-.typingIndicatorBubbleDot {
+.typing-indicator-bubble-dot {
   width: 4px;
   height: 4px;
   margin-right: 4px;
@@ -280,27 +377,28 @@ export default {
   animation-iteration-count: infinite;
 }
 
-.typingIndicatorBubbleDot:first-of-type {
+.typing-indicator-bubble-dot:first-of-type {
   margin: 0px 4px;
 }
 
-.typingIndicatorBubbleDot:nth-of-type(2) {
+.typing-indicator-bubble-dot:nth-of-type(2) {
   animation-delay: 0.15s;
 }
 
-.typingIndicatorBubbleDot:nth-of-type(3) {
+.typing-indicator-bubble-dot:nth-of-type(3) {
   animation-delay: 0.3s;
 }
 
 @keyframes bounce {
+
   0%,
   60%,
   100% {
     transform: translateY(0);
   }
+
   30% {
     transform: translateY(-4px);
   }
 }
-
 </style>
