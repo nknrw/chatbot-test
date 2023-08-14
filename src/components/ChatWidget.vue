@@ -169,6 +169,14 @@ export default {
   box-shadow: 20px 20px 40px rgba(0, 0, 0, 0.1);
 }
 
+@media screen and (max-width: 500px) {
+  .chat-widget {
+    width: calc(100dvw - 20px);
+    height: calc(100dvh - 20px);
+  }
+}
+  
+
 .chat-messages {
   flex: 1;
   padding: 10px;
