@@ -167,7 +167,7 @@ export default {
   height: 750px;
   border-radius: 10px;
   background-color: #ffffff;
-  box-shadow: 20px 20px 40px rgba(0, 0, 0, 0.1);
+  box-shadow: 5px 5px 50px rgba(0, 0, 0, 0.1);
 }
 
 @media screen and (max-width: 500px) {
@@ -228,6 +228,7 @@ export default {
   padding: 10px;
   //height: 100%;
   text-align: start;
+  box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.1);
 }
 
 .from-user {
@@ -244,6 +245,7 @@ export default {
   border-radius: 50%;
   margin: 0;
   flex-shrink: 0;
+  box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.1);
 }
 
 .from-user .avatar {
@@ -278,6 +280,7 @@ export default {
   padding: 0 10px;
   margin: 10px;
   background-color: #f0f0f0;
+  box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.1);
 }
 
 .chat-input input:hover {
@@ -351,6 +354,7 @@ opacity: 0.8;
   flex-grow: 1;
   font-family: inherit;
   font-weight: 700;
+  box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.1);
 }
 
 .buttons button:hover {
