@@ -16,6 +16,8 @@ export default {
 </script>
 
 <style>
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+  
 #app {
   text-align: center;
   color: #000000;
@@ -39,7 +41,7 @@ body {
   padding: 0;
   height: 100%;
   overflow: hidden;
-  font-family: 'Inter', sans-serif;
+  font-family: 'Roboto', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background-color: #f0f0f0;
