@@ -340,7 +340,6 @@ opacity: 0.8;
   width: max-content;
   flex-grow: 1;
   font-family: inherit;
-  font-weight: 700;
   box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.1);
 }
 
