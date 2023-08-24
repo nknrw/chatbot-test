@@ -3,7 +3,7 @@
 
 Ссылка на работающее приложение:  
 
-https://chatbot-test-task.vercel.app/
+https://chatbot-test-pya1lmpvx-nknrw.vercel.app/
 
 ## Локальный запуск
 ```
